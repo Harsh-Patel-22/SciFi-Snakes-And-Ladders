@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7effc24a5b940fd4fadea523f76bc916, type: 3}
+  m_Name: DisplayScreenListSO
+  m_EditorClassIdentifier: 
+  snakeBitImage: {fileID: 2544052170076802918, guid: 3b05d2416bd3d8d45bf2c6db93efd897, type: 3}
+  ladderClimbedImage: {fileID: 6814435271527146770, guid: b98aaee32c40d614ab760ebe404172d7, type: 3}
+  energyEruptionImage: {fileID: -8685696730368269608, guid: 6a8809daa0686c144b76278ef0f17637, type: 3}

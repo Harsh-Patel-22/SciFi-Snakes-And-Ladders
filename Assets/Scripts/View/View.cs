@@ -67,6 +67,7 @@ namespace SnakesAndLadders {
         public void UnlockAbility(int playerIndex) {
             abilityLocks[playerIndex].Play("unlock");
             SetAbilityButton(playerIndex, true);
+            animationHandler.PlayAbilityUnlockParticleSystem(playerIndex);
         }
 
         public void SetDiceSprite(int diceIndex, int spriteIndex) {

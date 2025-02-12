@@ -14,7 +14,9 @@ namespace SnakesAndLadders {
         [SerializeField] private Animator displayImageAnimator;
         [SerializeField] private Animator[] rollTextAnimators;
         [SerializeField] private Image drone;
+        [SerializeField]private ParticleSystem[] abilityUnlockparticleSystems;
         private TextMeshProUGUI[] rollTexts;
+
 
         private void Start() {
             rollTexts = new TextMeshProUGUI[rollTextAnimators.Length];
@@ -39,6 +41,10 @@ namespace SnakesAndLadders {
             StartCoroutine(WaitForAnimationFinish(rollTextAnimators[index].GetCurrentAnimatorStateInfo(0).length, () => HideRollText(index)));
         }
 
+        public void PlayAbilityUnlockParticleSystem(int index) {
+            abilityUnlockparticleSystems[index].Play();
+        }
+
         private IEnumerator WaitForAnimationFinish(float seconds, Action callback) {
             yield return new WaitForSeconds(seconds);
             callback();
@@ -56,9 +62,10 @@ namespace SnakesAndLadders {
             float waitTime = 0.1f;
             float x;
             WaitForSeconds wait = new WaitForSeconds(waitTime);
-            drone.transform.position = tile.transform.position + new Vector3(100f, 0f, 0f);
-            while(waitTime < 2f) {
-                x = Mathf.Lerp(drone.transform.position.x, -drone.transform.position.x, waitTime/2);
+            drone.transform.position = tile.transform.position + new Vector3(500f, 0f, 0f);
+            Vector3 endPosition = -drone.transform.position;
+            while(waitTime < 1f) {
+                x = Mathf.Lerp(drone.transform.position.x, endPosition.x, waitTime);
                 drone.transform.position = new Vector3(x, drone.transform.position.y);
                 waitTime += 0.1f;
                 yield return wait;

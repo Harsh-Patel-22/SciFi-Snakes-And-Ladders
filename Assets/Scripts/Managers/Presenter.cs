@@ -10,11 +10,8 @@ namespace SnakesAndLadders {
         [SerializeField] private SnakesSO[] snakeData;
         [SerializeField] private LaddersSO[] ladderData;
         
-        [HideInInspector] private GameConfigSO gameConfigData;
+        private GameConfigSO gameConfigData;
 
-        //private void Start() {
-        //    Setup(gameConfigData);
-        //}
         public void Setup(GameConfigSO gameConfigData) {
             this.gameConfigData = gameConfigData;
 
@@ -50,13 +47,13 @@ namespace SnakesAndLadders {
             for (int i = 0; i < players.Length; i++) {
                 if(i != playerIndex) {
                     // other players. Checking if they are in the blast line
-                    //Debug.Log(players[i].GetPosition() / 10 == players[playerIndex].GetPosition() / 10);
                     if (players[i].GetPosition() / 10 == players[playerIndex].GetPosition() / 10) {
                         model.SetPlayerPosition(i, 0);
                         view.SetPlayerDirect(i, 0);
                     }
                 }
             }
+            AudioHandler.Instance.PlaySound(AudioHandler.Sounds.energyEruption);
             view.SetAbilityButton(playerIndex, false);
             model.IncrementTurn();
             StartCoroutine(GenerateDelayBetweenPlayerAndBot());
@@ -94,9 +91,11 @@ namespace SnakesAndLadders {
             View.DisplayText displayTextImage = View.DisplayText.SnakeBit;
 
             if (model.HasSnake(currentPosition)) {
+                float delay = AudioHandler.Instance.PlaySound(AudioHandler.Sounds.snakeBit);
                 newPosition = model.GetNewTargetTileAfterSnakeBite(currentPosition);
                 displayTextImage = View.DisplayText.SnakeBit;
-                // extra code for ability handling to be added
+                // TODO - Add delay enough for sound to finish
+                
             } else if (model.HasLadder(currentPosition)) {
                 newPosition = model.GetNewTargetTileAfterLadderClimb(currentPosition);
                 displayTextImage = View.DisplayText.LadderClimbed;
@@ -116,7 +115,7 @@ namespace SnakesAndLadders {
             } else {
                 // no snake or ladder. There's a chance of other player being there.
                 CheckForOtherPlayersAndSet();
-                //- causing infinite loop because, it calls setplayer, which fires an event which has this function as callback. break that chain to solve it..
+                
                 model.IncrementTurn();
                 StartCoroutine(GenerateDelayBetweenPlayerAndBot());
             }

@@ -195,7 +195,7 @@ namespace SnakesAndLadders {
 
 
                 while (dirtiedTiles[targetEnd]) {
-                    Debug.Log("shrinking loop");
+                    //Debug.Log("shrinking loop");
                     targetEnd -= 1;
                     if (targetEnd / 10 <= start / 10) {
                         targetEnd = UnityEngine.Random.Range(start, start + 10);
@@ -207,7 +207,7 @@ namespace SnakesAndLadders {
                 ladderData[i].End = targetEnd;
                 if (targetEnd / 10 <= start / 10) {
                     ladderData.Remove(ladderData[i]);
-                    Debug.Log("Ladder Destroyed!!");
+                    //Debug.Log("Ladder Destroyed!!");
                 }
             }
         }
@@ -222,7 +222,9 @@ namespace SnakesAndLadders {
         }
 
         public void SetPlayerPosition(int playerIndex, int position) {
+            dirtiedTiles[players[playerIndex].GetPosition()] = false;
             players[playerIndex].SetPosition(position);
+            dirtiedTiles[position] = true;
         }
 
         public void AddAbility(int playerIndex, string abilityName, int charges) {

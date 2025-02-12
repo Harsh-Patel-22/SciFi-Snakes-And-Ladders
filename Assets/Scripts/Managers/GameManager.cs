@@ -38,11 +38,10 @@ namespace SnakesAndLadders {
         }
 
         public void VsButtonCLicked(int index) {
+            AudioHandler.Instance.PlaySound(AudioHandler.Sounds.start);
             GameSceneManager.Instance.SetActiveScene("Load");
             gameConfigDataIndex = index;
-            //StartCoroutine(ConfigPresenterAfterDelay());
-            checkForSceneLoad = true; 
-            
+            checkForSceneLoad = true;
             state = GameState.Loading;
         }
 
@@ -52,8 +51,8 @@ namespace SnakesAndLadders {
         }
 
         public void RestartTheGame() {
+            AudioHandler.Instance.PlaySound(AudioHandler.Sounds.start);
             GameSceneManager.Instance.SetActiveScene("Load");
-            //StartCoroutine(ConfigPresenterAfterDelay()); 
             Time.timeScale = 1f;
             checkForSceneLoad = true;
             state=GameState.Loading;
@@ -70,12 +69,6 @@ namespace SnakesAndLadders {
             presenter.Setup(gameConfigData[gameConfigDataIndex]);
             
         }
-
-        //private IEnumerator ConfigPresenterAfterDelay() {
-        //    yield return new WaitForSeconds(0.5f);
-        //    Presenter presenter = FindAnyObjectByType<Presenter>();
-        //    presenter.Setup(gameConfigData[gameConfigDataIndex]);
-        //}
 
     }
 }

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0beadd04573e504b85eab2cd6439cd4, type: 3}
   m_Name: Snake2
   m_EditorClassIdentifier: 
-  Head: 46
+  Head: 47
   Tail: 5
   Prefab: {fileID: 21300000, guid: e45e992dab0e0de4f99850656f23b32f, type: 3}
   X: 0

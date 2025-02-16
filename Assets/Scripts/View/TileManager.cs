@@ -18,8 +18,7 @@ public class TileManager : MonoBehaviour {
     private List<int> snakeTiles;
     private List<int> ladderTiles;
 
-    public void Setup() {
-        //Debug.Log("RGB started");
+    public void Setup() { 
         color1 = new Color(176f / 255f, 98f / 255f, 251f / 255f, 255f / 255f);
         color2 = new Color(0f, 0f, 1f, 1f);
         RGBEffect = true;
@@ -35,7 +34,6 @@ public class TileManager : MonoBehaviour {
     }
 
     public void SetSnakes(List<int> positions) {
-        //Debug.Log("Tile manager noti received");
         snakeTiles = positions;
         for (int i = 0;i < snakeTiles.Count; i++) {
             Tile tile = GetTile(snakeTiles[i]);
@@ -52,7 +50,6 @@ public class TileManager : MonoBehaviour {
         }
     }
     public void SetLadders(List<int> positions) {
-        //Debug.Log("Tile manager noti received");
         ladderTiles = positions;
     }
 
@@ -63,33 +60,26 @@ public class TileManager : MonoBehaviour {
 
 
     private void RGBTileEffect(ref float scale) {
-        //Debug.Log("Changing RGB color/11");
         Tile tile;
         Color tileColor;
         for (int i = 0; i < tiles.Length; i++) {
-            //for (int j = 0; j < tilesWithSpecialColor.Count; j++) {
-            //    if (i != tilesWithSpecialColor[j]) {
-                    tile = tiles[i];
-                    tileColor = tile.TileImage.color;
-                    if(colorCycle % 2 == 0) {
-                        tileColor = Color.Lerp(color1, color2, scale);
-                        tile.TileImage.color = tileColor;
-                    } else {
-                        tileColor = Color.Lerp(color2, color1, scale);
-                        tile.TileImage.color = tileColor;
-                    }
-                    if (tileColor == color2 || tileColor == color1) {
-                        colorCycle++;
-                        scale = 0;
-                        break;
-                    }
-
-            //    }
-            //}
+                tile = tiles[i];
+                tileColor = tile.TileImage.color;
+                if(colorCycle % 2 == 0) {
+                    tileColor = Color.Lerp(color1, color2, scale);
+                    tile.TileImage.color = tileColor;
+                } else {
+                    tileColor = Color.Lerp(color2, color1, scale);
+                    tile.TileImage.color = tileColor;
+                }
+                if (tileColor == color2 || tileColor == color1) {
+                    colorCycle++;
+                    scale = 0;
+                    break;
+                }
         }
         if (snakeTiles != null && ladderTiles != null) {
             for (int i = 0; i < snakeTiles.Count; i++) {
-                //Debug.Log(snakeTiles[i]);
                 tile = GetTile(snakeTiles[i]);
                 tile.TileImage.color = Color.red;
             }

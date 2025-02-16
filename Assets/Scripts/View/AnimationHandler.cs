@@ -14,7 +14,8 @@ namespace SnakesAndLadders {
         [SerializeField] private Animator displayImageAnimator;
         [SerializeField] private Animator[] rollTextAnimators;
         [SerializeField] private Image drone;
-        [SerializeField]private ParticleSystem[] abilityUnlockparticleSystems;
+        [SerializeField] private ParticleSystem[] abilityUnlockparticleSystems;
+        [SerializeField] private Sprite[] diceSprites;
         private TextMeshProUGUI[] rollTexts;
 
 
@@ -72,6 +73,27 @@ namespace SnakesAndLadders {
             } 
             drone.gameObject.SetActive(false);
             callback();
+        }
+
+        public void PlayDiceAnimation(int index, int finalValueIndex, Button diceButton) {
+            StartCoroutine(PlayDiceAnimationCoroutine(index, finalValueIndex, diceButton));
+        }
+
+        // TODO - Some weird bug in game due to this
+        private IEnumerator PlayDiceAnimationCoroutine(int index, int finalValueIndex, Button diceButton) {
+
+            int times = 4;
+            WaitForSeconds wait = new WaitForSeconds(0.03f);
+            for (int i = 0; i < times; i++) {
+                int randomNumber = finalValueIndex;
+                while (randomNumber == finalValueIndex) {
+                    randomNumber = UnityEngine.Random.Range(1, 6);
+                }
+                diceButton.image.sprite = diceSprites[randomNumber];
+                yield return wait;
+            }
+            PlayRollTextAnimation(index, finalValueIndex + 1);
+            diceButton.image.sprite = diceSprites[finalValueIndex];
         }
 
     }

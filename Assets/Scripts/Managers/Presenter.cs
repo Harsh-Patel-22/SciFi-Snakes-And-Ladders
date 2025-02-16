@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -82,6 +83,11 @@ namespace SnakesAndLadders {
             }
         }
 
+        private IEnumerator CallAfterDelay(Action callback, float seconds) {
+            yield return new WaitForSeconds(seconds);
+            callback();
+        }
+
         private void View_OnPlayerSet() {
             // Logic for snakes & ladder testing.
             int activePlayer = model.GetTurn();
@@ -89,9 +95,10 @@ namespace SnakesAndLadders {
             int newPosition = currentPosition;
 
             View.DisplayText displayTextImage = View.DisplayText.SnakeBit;
-
+            float delay = 0f;
             if (model.HasSnake(currentPosition)) {
-                float delay = AudioHandler.Instance.PlaySound(AudioHandler.Sounds.snakeBit);
+                delay = AudioHandler.Instance.PlaySound(AudioHandler.Sounds.snakeBit);
+                Debug.Log(delay);
                 newPosition = model.GetNewTargetTileAfterSnakeBite(currentPosition);
                 displayTextImage = View.DisplayText.SnakeBit;
                 // TODO - Add delay enough for sound to finish
@@ -110,12 +117,14 @@ namespace SnakesAndLadders {
             }
             if (currentPosition != newPosition) {
                 // snake bit or ladder climbed
-                view.SnakeLadderInteraction(activePlayer, displayTextImage, currentPosition, newPosition);
-                model.SetPlayerPosition(activePlayer, newPosition);
+                view.SnakeLadderInteraction(activePlayer, displayTextImage, currentPosition, newPosition, delay);
+                StartCoroutine(CallAfterDelay(() => {
+                    model.SetPlayerPosition(activePlayer, newPosition);
+                }, delay));
             } else {
                 // no snake or ladder. There's a chance of other player being there.
                 CheckForOtherPlayersAndSet();
-                
+
                 model.IncrementTurn();
                 StartCoroutine(GenerateDelayBetweenPlayerAndBot());
             }
@@ -170,7 +179,6 @@ namespace SnakesAndLadders {
         }
 
         private void SetPlayer(int playerIndex, int currentPosition, int targetPosition, string anchor = "center") {
-            //Debug.Log("Target Position -> " + targetPosition);
             if (currentPosition == targetPosition) {
                 view.SetPlayerAnchor(playerIndex, currentPosition, anchor);
             } else { 

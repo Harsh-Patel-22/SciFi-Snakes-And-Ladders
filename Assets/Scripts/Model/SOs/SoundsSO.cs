@@ -9,5 +9,5 @@ public class SoundsSO : ScriptableObject
     public AudioClip snakeBit;
     public AudioClip energyEruption;
     public AudioClip playerBlasted;
-
+    public AudioClip loading;
 }

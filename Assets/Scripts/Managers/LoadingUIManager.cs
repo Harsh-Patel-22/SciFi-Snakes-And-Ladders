@@ -26,7 +26,7 @@ public class LoadingUIManager : MonoBehaviour
 
         if (clockwise && fillAmount > 0.99f && !isReseting) {
             //StartCoroutine(GenerateDelayForLoad(1));
-            GameManager.Instance.LoadingFinish();
+            //GameManager.Instance.LoadingFinish();
         }
         else if(!clockwise && fillAmount < 0.01f && !isReseting) {
             StartCoroutine(GenerateDelayForLoad(0));

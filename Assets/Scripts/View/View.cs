@@ -24,7 +24,6 @@ namespace SnakesAndLadders {
         [SerializeField] private AnimationHandler animationHandler;
         [SerializeField] private Image[] playerImages;
         [SerializeField] private Button[] diceButtons;
-        [SerializeField] private Sprite[] diceSprites;
         [SerializeField] private GameObject displayScreen;
         [SerializeField] private Image displayScreenImage;
         [SerializeField] private DisplayScreenListSO displayScreenSprites;
@@ -64,14 +63,16 @@ namespace SnakesAndLadders {
             
         }
 
+        // TODO - add this to animation handler & not here
         public void UnlockAbility(int playerIndex) {
             abilityLocks[playerIndex].Play("unlock");
             SetAbilityButton(playerIndex, true);
             animationHandler.PlayAbilityUnlockParticleSystem(playerIndex);
         }
 
+        // TODO - add this to animation handler & not here
         public void SetDiceSprite(int diceIndex, int spriteIndex) {
-            StartCoroutine(PlayDiceAnimation(diceIndex, spriteIndex));
+             animationHandler.PlayDiceAnimation(diceIndex, spriteIndex ,diceButtons[diceIndex]);
         }
 
         public void SetAbilityButton(int index, bool state) {
@@ -96,11 +97,11 @@ namespace SnakesAndLadders {
             SetOnTile(tile, playerImages[playerIndex].rectTransform, anchor);
         }
 
-        public void SnakeLadderInteraction(int playerIndex, DisplayText displayText, int start, int end) {
+        public void SnakeLadderInteraction(int playerIndex, DisplayText displayText, int start, int end, float delay) {
             Tile startTile = tileManager.GetTile(start);
             Tile endTile = tileManager.GetTile(end);
             SetAndShowDisplayText(displayText);
-            StartCoroutine(SnakeladderInteractionHandlerCoroutine(playerIndex, startTile, endTile, displayText));
+            StartCoroutine(SnakeladderInteractionHandlerCoroutine(delay, playerIndex, startTile, endTile, displayText));
         }
 
         public void SetAndShowDisplayText(DisplayText displayText) {
@@ -140,7 +141,8 @@ namespace SnakesAndLadders {
             OnPlayerSet?.Invoke();
         }
 
-        private IEnumerator SnakeladderInteractionHandlerCoroutine(int playerIndex, Tile startTile, Tile endTile, DisplayText DisplayText) {
+        private IEnumerator SnakeladderInteractionHandlerCoroutine(float startDelay, int playerIndex, Tile startTile, Tile endTile, DisplayText DisplayText) {
+            yield return new WaitForSeconds(startDelay);
             RectTransform playerRectTransform = playerImages[playerIndex].rectTransform;
             StartCoroutine(ZoomEffect(startTile, playerRectTransform, false));
             yield return new WaitUntil(() => shrinkComplete);
@@ -174,6 +176,7 @@ namespace SnakesAndLadders {
             playerRectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, height * sizeScaler);
         }
 
+        // TODO -  add this to animation handler & not here
         private IEnumerator ZoomEffect(Tile tile, RectTransform playerRectTransform, bool enlargen) {
             int numberOfZooms = 10;
             int zoomFactor = 10;
@@ -204,19 +207,6 @@ namespace SnakesAndLadders {
                 }
                 shrinkComplete = true;
             }
-        }
-
-        private IEnumerator PlayDiceAnimation(int index, int finalValueIndex) {
-            int times = 3;
-            int randomNumber;
-            WaitForSeconds wait = new WaitForSeconds(0.05f);
-            for (int i = 0; i < times; i++) {
-                randomNumber = UnityEngine.Random.Range(1, 6);
-                diceButtons[index].image.sprite = diceSprites[randomNumber];
-                yield return wait;
-            }
-            animationHandler.PlayRollTextAnimation(index, finalValueIndex + 1);
-            diceButtons[index].image.sprite = diceSprites[finalValueIndex];
         }
 
         private void ConfigPlayer(RectTransform playerRectTransform, RectTransform tileRectTransform, float width, float height) {
@@ -263,8 +253,6 @@ namespace SnakesAndLadders {
         public void HandlePlayerAbilityClicked(int playerIndex) {
             OnPlayerAbilityClicked?.Invoke(playerIndex);
         }
-
-        public void HandlePauseButtonClicked() { }
 
 
         public void ShowGameOverScreen() {

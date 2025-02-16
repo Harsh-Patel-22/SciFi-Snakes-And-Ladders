@@ -11,7 +11,6 @@ namespace SnakesAndLadders {
         public static GameManager Instance { get; private set; }
         [SerializeField] GameConfigSO[] gameConfigData;
         private int gameConfigDataIndex;
-        private bool checkForSceneLoad;
 
         private enum GameState {
             Home,
@@ -25,11 +24,9 @@ namespace SnakesAndLadders {
         private void Awake() {
             if (Instance == null) {
                 Instance = this;
-                checkForSceneLoad = false;
                 DontDestroyOnLoad(gameObject);
             } else {
                 Destroy(gameObject);
-                checkForSceneLoad = false;
             }
         }
 
@@ -38,11 +35,8 @@ namespace SnakesAndLadders {
         }
 
         public void VsButtonCLicked(int index) {
-            AudioHandler.Instance.PlaySound(AudioHandler.Sounds.start);
-            GameSceneManager.Instance.SetActiveScene("Load");
             gameConfigDataIndex = index;
-            checkForSceneLoad = true;
-            state = GameState.Loading;
+            Load();
         }
 
         public void LoadingFinish() {
@@ -51,11 +45,21 @@ namespace SnakesAndLadders {
         }
 
         public void RestartTheGame() {
+            Load();
+        }
+
+        private void Load() {
             AudioHandler.Instance.PlaySound(AudioHandler.Sounds.start);
             GameSceneManager.Instance.SetActiveScene("Load");
+            float delay = AudioHandler.Instance.PlaySound(AudioHandler.Sounds.loading);
             Time.timeScale = 1f;
-            checkForSceneLoad = true;
-            state=GameState.Loading;
+            state = GameState.Loading;
+            StartCoroutine(ExecuteAfterDelay(LoadingFinish, delay));
+        }
+
+        private IEnumerator ExecuteAfterDelay(Action callback, float delay) {
+            yield return new WaitForSeconds(delay);
+            callback();
         }
 
         public void ExitPlay() {

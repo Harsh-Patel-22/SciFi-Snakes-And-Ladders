@@ -154,7 +154,7 @@ namespace SnakesAndLadders {
                 while (dirtiedTiles[targetHead]) {
                     targetHead += UnityEngine.Random.Range(-1, 10);
                     if (targetHead >= 100) {
-                        Debug.Log("BOUNDS BROKE");
+                        //Debug.Log("BOUNDS BROKE");
                         targetHead = UnityEngine.Random.Range(currentTail, 100);
                     }
                 }

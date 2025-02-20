@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,18 +9,18 @@ public class TileManager : MonoBehaviour {
     [SerializeField] private Sprite snakeTeethImage;
     [SerializeField] private Image[] snakeTeethImageList;
     public bool RGBEffect { get; set; }
-    private Color color1;
-    private Color color2;
     private int colorCycle = 0;
+    private Color blackForSnakes;
+    private Color blackForLadders;
     private float scaleFactor = 0f;
 
     private List<int> snakeTiles;
     private List<int> ladderTiles;
 
     public void Setup() { 
-        color1 = new Color(176f / 255f, 98f / 255f, 251f / 255f, 255f / 255f);
-        color2 = new Color(0f, 0f, 1f, 1f);
         RGBEffect = true;
+        blackForSnakes = new Color(1,0,0,0.2f);
+        blackForLadders = new Color(0,1,0,0.2f);
         for (int i = 0; i < tiles.Length; i++) {
             tiles[i].TileNumber = i;
             tiles[i].SetTileNumberText(i + 1);
@@ -31,6 +30,14 @@ public class TileManager : MonoBehaviour {
             snakeTeethImageList[i].sprite = snakeTeethImage;
             snakeTeethImageList[i].gameObject.SetActive(false); 
         }
+
+        Tile tile;
+        
+        for (int i = 0; i < tiles.Length; i++) {
+            tile = tiles[i];
+            tile.TileImage.color = Color.white;
+        }
+
     }
 
     public void SetSnakes(List<int> positions) {
@@ -62,31 +69,41 @@ public class TileManager : MonoBehaviour {
     private void RGBTileEffect(ref float scale) {
         Tile tile;
         Color tileColor;
-        for (int i = 0; i < tiles.Length; i++) {
-                tile = tiles[i];
-                tileColor = tile.TileImage.color;
-                if(colorCycle % 2 == 0) {
-                    tileColor = Color.Lerp(color1, color2, scale);
+
+        for(int i = 0; i < tiles.Length; i++) {
+            tile = tiles[i];
+            tile.TileImage.color = Color.white;
+        }
+
+        if (snakeTiles != null) {
+            for (int i = 0; i < snakeTiles.Count; i++) {
+                tile = GetTile(snakeTiles[i]);
+                if (colorCycle % 2 == 0) {
+                    tileColor = Color.Lerp(blackForSnakes, Color.red, scale);
                     tile.TileImage.color = tileColor;
                 } else {
-                    tileColor = Color.Lerp(color2, color1, scale);
+                    tileColor = Color.Lerp(Color.red, blackForSnakes, scale);
                     tile.TileImage.color = tileColor;
                 }
-                if (tileColor == color2 || tileColor == color1) {
+                if (tileColor == Color.red || tileColor == blackForSnakes) {
                     colorCycle++;
                     scale = 0;
                     break;
                 }
-        }
-        if (snakeTiles != null && ladderTiles != null) {
-            for (int i = 0; i < snakeTiles.Count; i++) {
-                tile = GetTile(snakeTiles[i]);
-                tile.TileImage.color = Color.red;
             }
+        }
+
+        if (ladderTiles != null) {
             for (int i = 0; i < ladderTiles.Count; i++) {
                 tile = GetTile(ladderTiles[i]);
-                tile.TileImage.color = Color.green;
-               }
+                if (colorCycle % 2 == 0) {
+                    tileColor = Color.Lerp(blackForLadders, Color.green, scale);
+                    tile.TileImage.color = tileColor;
+                } else {
+                    tileColor = Color.Lerp(Color.green, blackForLadders, scale);
+                    tile.TileImage.color = tileColor;
+                }
+            }
         }
     }
 

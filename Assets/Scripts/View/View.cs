@@ -105,20 +105,22 @@ namespace SnakesAndLadders {
         }
 
         public void SetAndShowDisplayText(DisplayText displayText) {
+            displayScreen.gameObject.SetActive(true);
             switch (displayText) {
                 case DisplayText.SnakeBit:
                     displayScreenImage.sprite = displayScreenSprites.snakeBitImage;
+                    animationHandler.PlayDisplayImageAnimation(Color.red, OnDisplayAnimationFinish);
                     break;
                 case DisplayText.LadderClimbed:
                     displayScreenImage.sprite = displayScreenSprites.ladderClimbedImage;
+                    animationHandler.PlayDisplayImageAnimation(Color.green, OnDisplayAnimationFinish);
                     break;
                 case DisplayText.EnergyEruption:
                     displayScreenImage.sprite = displayScreenSprites.energyEruptionImage;
+                    animationHandler.PlayDisplayImageAnimation(Color.yellow, OnDisplayAnimationFinish);
+
                     break;
             }
-            //displayLabel.text = text;
-            displayScreen.gameObject.SetActive(true);
-            animationHandler.PlayDisplayImageAnimation(OnDisplayAnimationFinish);
         }
 
 
@@ -195,6 +197,7 @@ namespace SnakesAndLadders {
                     ConfigPlayer(playerRectTransform, tileRectTransform, width, height);
                     yield return wait;
                 }
+                ConfigPlayer(playerRectTransform, tileRectTransform, tileRectTransform.rect.width, tileRectTransform.rect.height);
                 enlargenComplete = true;
             } else {
                 for (int i = numberOfZooms; i > 1; i--)

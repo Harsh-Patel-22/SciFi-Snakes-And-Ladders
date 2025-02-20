@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,6 +14,7 @@ namespace SnakesAndLadders {
         [SerializeField] private Animator[] rollTextAnimators;
         [SerializeField] private Image drone;
         [SerializeField] private ParticleSystem[] abilityUnlockparticleSystems;
+        [SerializeField] private ParticleSystem displayParticleSystem;
         [SerializeField] private Sprite[] diceSprites;
         private TextMeshProUGUI[] rollTexts;
 
@@ -31,8 +31,11 @@ namespace SnakesAndLadders {
             gameObject.SetActive(false);
         }
 
-        public void PlayDisplayImageAnimation(Action callback) {
+        public void PlayDisplayImageAnimation(Color color, Action callback) {
             displayImageAnimator.SetTrigger(PLAY_DISPLAY_TEXT_ANIMATION);
+            // TODO - code to play particle effect
+            displayParticleSystem.startColor = color;
+            displayParticleSystem.Play();
             StartCoroutine(WaitForAnimationFinish(displayImageAnimator.GetCurrentAnimatorStateInfo(0).length, callback));
         }
         public void PlayRollTextAnimation(int index, int rollNumber) {
@@ -62,6 +65,7 @@ namespace SnakesAndLadders {
         private IEnumerator BlastAnimationCoroutine(Tile tile, Action callback) {
             float waitTime = 0.1f;
             float x;
+            drone.gameObject.SetActive(true);
             WaitForSeconds wait = new WaitForSeconds(waitTime);
             drone.transform.position = tile.transform.position + new Vector3(500f, 0f, 0f);
             Vector3 endPosition = -drone.transform.position;

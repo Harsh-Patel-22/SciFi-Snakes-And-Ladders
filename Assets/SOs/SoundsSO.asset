@@ -18,4 +18,4 @@ MonoBehaviour:
   snakeBit: {fileID: 8300000, guid: ac1d361efbd8f9349a60150841604402, type: 3}
   energyEruption: {fileID: 8300000, guid: 75d900838c20a434a9719057f13d8d62, type: 3}
   playerBlasted: {fileID: 0}
-  loading: {fileID: 8300000, guid: 7ef26f8b7f2fce74b9da1896f2c63be6, type: 3}
+  loading: {fileID: 8300000, guid: 52493fd0a0303dd4b97520ff1221c628, type: 3}

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3116280928399263330}
   - component: {fileID: 3638933050966739640}
   - component: {fileID: 3000679380052225471}
+  - component: {fileID: 8089680654195025978}
   m_Layer: 5
   m_Name: Tile
   m_TagString: Untagged
@@ -60,14 +61,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.38467064, g: 0.6594276, b: 0.98490566, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 8597aa25d66e2404f8979b4d488bdc42, type: 3}
+  m_Sprite: {fileID: 2334290985017834863, guid: d9d54969eb0f2ee499d43c47ece229b9, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -89,6 +90,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe0783d49b9604b4dbbbccc48112f082, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!225 &8089680654195025978
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 50303533719392865}
+  m_Enabled: 1
+  m_Alpha: 0.46
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &4925836827862293913
 GameObject:
   m_ObjectHideFlags: 0
@@ -154,7 +167,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 
+  m_text: '100
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
